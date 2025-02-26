@@ -1,7 +1,7 @@
 import { fileURLToPath } from "url";
 import path from "path";
 import dotenv from "dotenv"
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const __dirname = path.resolve();//path.dirname(fileURLToPath(import.meta.url));
 dotenv.config({ path: path.join(__dirname, '../.env')})
 import express from "express"// handling http requests
 import http from "http";
