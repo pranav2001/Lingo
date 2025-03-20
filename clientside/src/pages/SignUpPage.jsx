@@ -1,23 +1,21 @@
 import {Eye, EyeOff, Lock, Mail, MessageSquare,User} from "lucide-react"
 import { Link, useNavigate } from "react-router-dom"
-import { useState,useContext,useEffect } from "react"
+import { useState,useContext } from "react"
 import toast from "react-hot-toast"
 import axiosInstance from "../utils/axios"
 import AuthContext from "../contexts/AuthContext"
-
-//import AuthImagePattern from "../components/AuthImagePattern"
 export default function SignUpPage(){
     const [formData,setFormData]=useState({
         fullName:"",
         email:"",
         password:""
     })
-    const {userState,userDispatch,connectSocket,disconnectSocket}=useContext(AuthContext)
+    const {userDispatch}=useContext(AuthContext)
     const [showPassword,setShowPassword]=useState(false)
     const navigate=useNavigate()
-    //const errors={}
+
     const validateFormClient=()=>{
-        let isError=1; //no error
+        let isError=1;
         const emailPattern=/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/
         if(!formData.fullName.trim()){
             isError=0
@@ -44,28 +42,24 @@ export default function SignUpPage(){
             isError=0
             toast.error("Password must be at least 8 characters long")
         }
-        // Check for lowercase letter
         if (!/[a-z]/.test(formData.password)) {
             isError=0
             toast.error("Password must contain at least one lowercase letter")
         }
     
-        // Check for uppercase letter
         if (!/[A-Z]/.test(formData.password)) {
             isError=0
             toast.error("Password must contain at least one uppercase letter")
         
         }
-    
-        // Check for number
+
         if (!/\d/.test(formData.password)) {
             isError=0
             toast.error("Password must contain at least one number")
 
             
         }
-    
-        // Check for special character
+
         if (!/[!@#$%^&*(),.?":{}|<>]/.test(formData.password)) {
             isError=0
             toast.error("Password must contain at least one special character")
@@ -81,20 +75,13 @@ export default function SignUpPage(){
     const handleSubmit=async (e)=>{
         e.preventDefault()
         const success=validateFormClient()
-        //console.log("validateform returns",success)
         if(success){
             try {
                 const authResponse = await axiosInstance.post("/auth/signup",formData);
                 console.log(authResponse)
                 localStorage.setItem("Token",authResponse.data.accessToken)
                 toast.success(authResponse.data.message)
-                //const {socket,onlineUsers}=connectSocket("http://localhost:5001")
-                //userDispatch({type:"authenticateUser",payload:{userData:authResponse.data.user,socket,onlineUsers}})
                 userDispatch({type:"authenticateUser",payload:authResponse.data.userData})
-
-
-                // connectSocket("http://localhost:5001")
-                // userDispatch({type:"authenticateUser",payload:authResponse.data.userData})
                 navigate("/");
             } catch (error) {
                 console.log(error);
@@ -104,18 +91,9 @@ export default function SignUpPage(){
         }
     }
 
-    // useEffect(() => {
-    //             if (userState.isLoggedIn) {
-    //                 connectSocket("http://localhost:5001");
-    //             }
-    //             return () => {
-    //                 disconnectSocket(); // Cleanup when the component unmounts
-    //             };
-    //         }, [userState.isLoggedIn]);
-
     return(
         <div className="min-h-screen pt-16">
-            <div className="flex flex-col justify-center items-center p-6 sm:p-12">{/* So when the screen is small it is p-6 but when screen reaches 640px or more the padding increases by 12*/}
+            <div className="flex flex-col justify-center items-center p-6 sm:p-12">
             <div className="w-full max-w-md space-y-8">
                 <div className="text-center mb-8">
                     <div className="flex flex-col items-center gap-2 group">
@@ -177,11 +155,6 @@ export default function SignUpPage(){
           </div>
             </div>
             </div>
-            {/* <AuthImagePattern 
-                title="Join our community"
-                subtitle="Connect with friends, share moments, and stay in touch with your loved ones."
-
-            /> */}
         </div>
     )
 }

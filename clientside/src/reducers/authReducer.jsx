@@ -17,10 +17,10 @@ export const authReducer=(state,action)=>{
         case "setOnlineUser":{
             return {...state,socket:action.payload.socket,onlineUsers:action.payload.userIds}
         }
-        case "setSocketAndOnlineUser":{
-            console.log("Inside setSocketAndOnlineUser reducer",action.payload)
-            return {...state,socket:action.payload.socket,onlineUsers:action.payload.onlineUsers}
-        }
+        // case "setSocketAndOnlineUser":{
+        //     console.log("Inside setSocketAndOnlineUser reducer",action.payload)
+        //     return {...state,socket:action.payload.socket,onlineUsers:action.payload.onlineUsers}
+        // }
         case "profilePicUpload":{
             return {...state,user:{...state.user,profilePic:action.payload}}
         }

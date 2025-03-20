@@ -1,5 +1,5 @@
 import { Server } from "socket.io";
-//import cors from "cors"
+
 
 let io;
 const onlineUsers={}
@@ -19,14 +19,13 @@ export const initializeSocket=(server)=>{
         if(userId){
            onlineUsers[userId]=socket.id 
         }
-        //io.emit is used to send events to all the connected clients
         io.emit("getOnlineUsers",Object.keys(onlineUsers))
         socket.on("disconnect",()=>{
             console.log("User disconnected ",socket.id)
             delete onlineUsers[userId]
             io.emit("getOnlineUsers",Object.keys(onlineUsers))
         })
-    })// .listening for connections. event is fired when a new client connects. and socket.on fires when client disconnects
+    })
     return io
 }
 

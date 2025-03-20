@@ -54,9 +54,8 @@ export default function ChatProvider({children}){
             return
         }
         const socket=userState.socket;
-        //todo optimize it
         socket.on("newMessage",(newMessage)=>{
-            if(newMessage.senderId!==chatState.selectedUser._id){ //for the receiver the when the sender of the msg is the selected user then real time data should be displayed
+            if(newMessage.senderId!==chatState.selectedUser._id){
                 return
             }
 

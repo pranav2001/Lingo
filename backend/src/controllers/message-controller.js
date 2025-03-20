@@ -38,9 +38,9 @@ messageCtrl.sendMessage=async(req,res)=>{
         const senderId=req.currentUser.userId;
         const message= await Message.create({senderId,receiverId,text})
         const io=getIo()
-        const receiverSocketId=getReceiverSocketId(receiverId);// if user not online dont need to send it in real time but if online send msg in real time
+        const receiverSocketId=getReceiverSocketId(receiverId);
         if(receiverSocketId){
-            io.to(receiverSocketId).emit("newMessage",message)//send it to specfic receiver 
+            io.to(receiverSocketId).emit("newMessage",message)
         }
         res.status(201).json({message});
     } catch (error) {

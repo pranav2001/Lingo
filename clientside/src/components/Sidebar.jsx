@@ -2,6 +2,7 @@ import { useContext, useState } from "react"
 import ChatContext from "../contexts/ChatContext"
 import { Users } from "lucide-react";
 import AuthContext from "../contexts/AuthContext";
+
 export default function Sidebar(){
   const {chatState,setSelectedUser}=useContext(ChatContext);
   const {userState}=useContext(AuthContext)
@@ -15,15 +16,15 @@ export default function Sidebar(){
                 <Users className="size-6" />
                 <span className="font-medium hidden lg:block">Contacts</span>
             </div>
-            {/* TODO: Online filter toggle*/}
             <div className="mt-3 hidden lg:flex items-center gap-2">
                 <label className="cursor-pointer flex items-center gap-2">
                     <input type="checkbox" checked={showOnlineOnly} onChange={(e)=>setShowOnlineOnly(e.target.checked)} className="checkbox checkbox-sm"/>
                     <span className="text-sm">Show online only</span>
                 </label>
-                <span className="text-xs text-zinc-500">({userState.onlineUsers.length-1} online)</span>
-
+                <span className="text-xs text-zinc-500">({userState.onlineUsers?.length ?  userState.onlineUsers?.length-1 : 0} online)</span>
             </div>
+            </div>
+
             <div className="overflow-y-auto w-full py-3">
                 {filteredUsers.map((user)=>{
                     
@@ -37,7 +38,7 @@ export default function Sidebar(){
                                 src={user.profilePic?.url || "/avatar.png"}
                                 className="size-12 object-cover rounded-full"
                             />
-                            {/* TODO: For online users show a small green circle near the profile pic*/}
+                            
                             {userState.onlineUsers.includes(user._id) && (
                                 <span
                                 className="absolute bottom-0 right-0 size-3 bg-green-500 
@@ -54,7 +55,6 @@ export default function Sidebar(){
                     </button>
                 })}
             </div>
-        </div>
     </aside>
   )
 }

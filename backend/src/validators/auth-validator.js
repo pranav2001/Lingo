@@ -67,15 +67,6 @@ export const loginValidationSchema={
 
 
 export const updateProfileSchemaValidation={
-    fullName:{
-        optional:true,
-        in:['body'],
-        notEmpty:{
-            errorMessage:"Full name cannot be empty",
-            bail:true
-        },
-        trim:true
-    },
     profilePic:{
         optional:{
             options:({req})=>{

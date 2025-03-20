@@ -1,5 +1,4 @@
-//import { useContext } from "react";
-import { useState,useContext,useEffect } from "react"
+import { useState,useContext } from "react"
 import AuthContext from "../contexts/AuthContext";
 import toast from "react-hot-toast";
 
@@ -15,9 +14,9 @@ export default function LoginPage(){
         password:""
     })
     const navigate=useNavigate()
-    const {userState,userDispatch,connectSocket,disconnectSocket}=useContext(AuthContext)
+    const {userDispatch}=useContext(AuthContext)
     const validateFormClient=()=>{
-        let isError=1; //no error
+        let isError=1; 
         const emailPattern=/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/
         if(!formData.email.trim()){
             isError=0
@@ -50,13 +49,8 @@ export default function LoginPage(){
                 console.log("login response",authResponse);
                 localStorage.setItem("Token",authResponse.data.accessToken)
                 toast.success(authResponse.data.message)
-                // const {socket,onlineUsers}=connectSocket("http://localhost:5001")
-                //userDispatch({type:"authenticateUser",payload:{userData:authResponse.data.user,}})
                 userDispatch({type:"authenticateUser",payload:authResponse.data.userData})
 
-
-                //connectSocket("http://localhost:5001")
-                //userDispatch({type:"authenticateUser",payload:authResponse.data.userData})
                 navigate("/");
             } catch (error) {
                 console.log(error);
@@ -65,13 +59,6 @@ export default function LoginPage(){
         }
 
     }
-    
-    // useEffect(() => {
-    //         if (userState.isLoggedIn) {
-    //             if(!userState.socket||!userState.socket.connected)
-    //             connectSocket("http://localhost:5001");
-    //         }
-    //     }, [userState.isLoggedIn,userState.socket]);
 
     return(
         <div className="h-screen pt-16">

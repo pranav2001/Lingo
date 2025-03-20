@@ -23,14 +23,6 @@ authCtrl.signup=async(req,res)=>{
         const hashedPassword=await bcrypt.hash(password,salt);
         const newUser = await User.create({email,fullName,password:hashedPassword}) 
         const accessToken=generateToken(newUser._id)
-
-        // console.log(jwt)
-        // res.cookie("token",userToken,{
-        //     maxAge:7*24*60*60*1000,
-        //     httpOnly:true,
-        //     sameSite:"strict",
-        //     secure:process.env.NODE_ENV!=="development"
-        // })
         const userData=_.pick(newUser,['_id',"email","fullName"])
         res.status(201).json({userData,message:"Succesfully registered account",accessToken})
 
@@ -57,12 +49,6 @@ authCtrl.login=async(req,res)=>{
         }
         const accessToken = generateToken(user._id);
         console.log("token",accessToken)
-        // res.cookie("token",userToken,{
-        //     maxAge:7*24*60*60*1000,
-        //     httpOnly:true,
-        //     sameSite:"strict",
-        //     secure:process.env.NODE_ENV!=="development"
-        // })
         const userData=_.pick(user,['_id',"email","fullName","profilePic","createdAt"])
         res.status(201).json({userData,message:"Succesfully logged in",accessToken})
 
@@ -72,27 +58,9 @@ authCtrl.login=async(req,res)=>{
     }
 }
 
-// authCtrl.logout=async(req,res)=>{
-//     try {
-//         res.clearCookie('token', {
-//             httpOnly: true,
-//             secure: process.env.NODE_ENV === 'production', // Include if originally set
-//             sameSite: 'Strict', // Must match how the cookie was originally set
-//           });
-//         res.status(200).json({message:"Logged out successfully"})
-//     } catch (error) {
-//         console.log("Error in logout controller",error.message)
-//         res.status(500).json({message:"Internal Server Error"})
-//     }
-    
-// }
-
 authCtrl.updateProfile=async(req,res)=>{
-    //const {fullName}=req.body;
-    // const user=await User.findOne({email})
-    // if(user._id!==req.currentUser.userId){
-    //     return res.status(401).json({message:"Unauthorized access"})
-    // }
+    delete req.body.fullName;
+    delete req.body.email;
     const profilePath=req.file?.path
     try {
         const foundUser=await User.findById(req.currentUser.userId)

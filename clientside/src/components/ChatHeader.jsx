@@ -6,7 +6,7 @@ export default function ChatHeader(){
     const {chatState,setSelectedUser}= useContext(ChatContext)
     const{userState}=useContext(AuthContext)
     return(
-            <div className="p-2.5 border-b border-base-300">
+            <div className="p-2.5 border-b border-base-300 m-12">
                 <div className="flex items-center justify-between">
                     <div className="flex items-center gap-3">
                          {/* Avatar */}

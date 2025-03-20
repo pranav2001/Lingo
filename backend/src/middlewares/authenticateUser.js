@@ -1,6 +1,5 @@
 import jwt from "jsonwebtoken";
-
-//try with Bearer keyword
+//Use bearer prefix
 const authenticateUser=async(req,res,next)=>{
     try {
         let token=req.headers['authorization'];
