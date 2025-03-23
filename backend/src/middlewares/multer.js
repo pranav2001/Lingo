@@ -4,7 +4,7 @@ import path from "path";
 const __filename = fileURLToPath(import.meta.url); 
 const __dirname = path.dirname(__filename)
 
-const tempDir = path.join(__dirname, '../public/temp');
+const tempDir = process.env.NODE_ENV==="production" ? "/tmp": path.join(__dirname, '../public/temp');
 
 
 const storage = multer.diskStorage({
